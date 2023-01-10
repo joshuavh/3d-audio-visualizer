@@ -1,7 +1,6 @@
 import * as THREE from '/js/three.js';
 import { OrbitControls } from '/js/OrbitControls.js';
 import Stats from '/js/stats.module.js';
-
 import { EffectComposer } from '/js/postprocessing/EffectComposer.js';
 import { RenderPass } from '/js/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from '/js/postprocessing/UnrealBloomPass.js';
