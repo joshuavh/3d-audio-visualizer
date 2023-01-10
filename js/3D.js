@@ -34,7 +34,7 @@ const scene = new THREE.Scene()
 
 // Camera
 const camera = new THREE.PerspectiveCamera(64, sizes.width / sizes.height, 1, 90);
-camera.position.set(20,10,0);
+camera.position.set(30,15,0);
 scene.add(camera);
 
 
@@ -64,7 +64,6 @@ const renderer = new THREE.WebGLRenderer({
 renderer.setSize(sizes.width, sizes.height);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 renderer.setClearColor( 0xffffff, 0);
-scene.background = null;
 renderer.render(scene, camera);
 
 renderer.outputEncoding = THREE.sRGBEncoding;
@@ -110,7 +109,7 @@ var mesh = new THREE.InstancedMesh( sphereGeometry, basicMaterial, count );
 for ( let x = 0; x < amount; x ++ ) {
     for ( let y = 0; y < amount; y ++ ) {
         dummy.position.set( (offset - x) / 4, 0, (offset - y) / 4 );
-        dummy.scale.set(.02,.02,.02)
+        dummy.scale.set(.025,.025,.025)
         dummy.updateMatrix();
         mesh.setMatrixAt(i, dummy.matrix);
         mesh.setColorAt( i, color );
@@ -135,7 +134,7 @@ document.getElementById("play").onclick = function init(){
     source.connect(analyser);
     analyser.connect(audioContext.destination);
     analyser.fftSize = 1024;
-    analyser.smoothingTimeConstant = 0.8;
+    analyser.smoothingTimeConstant = 0.75;
     audioElement.play();
     
     document.getElementById("play").style.display = "none";
@@ -168,9 +167,9 @@ const animate = () =>
     let i = 0;
     for ( let x = 0; x < amount; x ++ ) {
         for ( let y = 0; y < amount; y ++ ) {
-            mesh.setColorAt( i, color.setHSL( 0.65 + queue[i]/2048, 1, queue[i]/128 - 0.6) );
+            mesh.setColorAt( i, color.setHSL( queue[i]/640 -.2, 0.8, queue[i]/128 - 0.7) );
             mesh.instanceColor.needsUpdate = true;
-            dummy.position.set( (offset - x) / 4, queue[i]/32, (offset - y) / 4 );
+            dummy.position.set( (offset - x) / 4, queue[i]/28, (offset - y) / 4 );
             dummy.updateMatrix();
             mesh.setMatrixAt( i, dummy.matrix );
             mesh.instanceMatrix.needsUpdate = true;
