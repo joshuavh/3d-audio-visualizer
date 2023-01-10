@@ -30,6 +30,16 @@ body{
     cursor: -webkit-grabbing;
 }
 
+h1{
+    position: absolute;
+    top: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 999;
+    color: white;
+    font-size: 16px;
+}
+
 
 #audioplayer{
     position: absolute;
@@ -44,8 +54,9 @@ body{
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
+    width: 96px;
+    height: 96px;
 
-    padding: 16px 64px 16px 64px;
     font-size: 16px;
     font-weight: 600;
     letter-spacing: .5px;
@@ -60,13 +71,13 @@ body{
 #play:hover {
     cursor: pointer;
     color: white; 
-    background-color: #542BEC;
+    background-color: #6300c7;
 }
 
 #play:active { 
     cursor: pointer;
     color: white; 
-    background-color: black;
+    background-color: #4e009c;
 }
 
 

@@ -17,9 +17,9 @@ const params = {
 /**
  * Debug
  */
-const stats = new Stats()
-stats.showPanel(0) // 0: fps, 1: ms, 2: mb, 3+: custom
-document.body.appendChild(stats.dom)
+// const stats = new Stats()
+// stats.showPanel(0) // 0: fps, 1: ms, 2: mb, 3+: custom
+// document.body.appendChild(stats.dom)
 
 const canvas = document.querySelector('canvas.webgl')
 
@@ -34,7 +34,7 @@ const scene = new THREE.Scene()
 
 // Camera
 const camera = new THREE.PerspectiveCamera(64, sizes.width / sizes.height, 1, 90);
-camera.position.set(20,10,);
+camera.position.set(20,10,0);
 scene.add(camera);
 
 
@@ -49,10 +49,10 @@ controls.rotateSpeed = 0.25;
 // Renderer
 THREE.Cache.enabled = true;
 
-// let AA = true
-// if (window.devicePixelRatio > 1) {
-//   AA = false
-// }
+let AA = true
+if (window.devicePixelRatio > 1) {
+  AA = false
+}
 
 const renderer = new THREE.WebGLRenderer({
     antialias: true,
@@ -60,16 +60,14 @@ const renderer = new THREE.WebGLRenderer({
     powerPreference: "high-performance",
     canvas: canvas
 })
+
 renderer.setSize(sizes.width, sizes.height);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 renderer.setClearColor( 0xffffff, 0);
 scene.background = null;
-
 renderer.render(scene, camera);
 
-
 renderer.outputEncoding = THREE.sRGBEncoding;
-
 const renderScene = new RenderPass( scene, camera );
 
 const bloomPass = new UnrealBloomPass( new THREE.Vector2( window.innerWidth, window.innerHeight ), 1.5, 0.4, 0.85 );
@@ -104,17 +102,16 @@ let i = 0;
 const offset = ( amount - 1 ) / 2;
 
 const dummy = new THREE.Object3D();
-const shinyMaterial = new THREE.MeshBasicMaterial();
+const basicMaterial = new THREE.MeshBasicMaterial();
 const color = new THREE.Color();
 const sphereGeometry = new THREE.SphereGeometry( 1, 8, 4 );
-var mesh = new THREE.InstancedMesh( sphereGeometry, shinyMaterial, count );
+var mesh = new THREE.InstancedMesh( sphereGeometry, basicMaterial, count );
 
 for ( let x = 0; x < amount; x ++ ) {
     for ( let y = 0; y < amount; y ++ ) {
         dummy.position.set( (offset - x) / 4, 0, (offset - y) / 4 );
         dummy.scale.set(.02,.02,.02)
         dummy.updateMatrix();
-
         mesh.setMatrixAt(i, dummy.matrix);
         mesh.setColorAt( i, color );
 
@@ -169,27 +166,22 @@ const animate = () =>
     }
 
     let i = 0;
-    let f = 0;
-
-
     for ( let x = 0; x < amount; x ++ ) {
         for ( let y = 0; y < amount; y ++ ) {
-            mesh.setColorAt( f, color.setHSL( 0.65 + queue[i]/2048, 1, queue[i]/128 - 0.7) );
+            mesh.setColorAt( i, color.setHSL( 0.65 + queue[i]/2048, 1, queue[i]/128 - 0.6) );
             mesh.instanceColor.needsUpdate = true;
             dummy.position.set( (offset - x) / 4, queue[i]/32, (offset - y) / 4 );
             dummy.updateMatrix();
-            mesh.setMatrixAt( f, dummy.matrix );
+            mesh.setMatrixAt( i, dummy.matrix );
             mesh.instanceMatrix.needsUpdate = true;
-
-            f++;
             i++
         }
     }
 
     // Render
-    stats.begin()
+    // stats.begin()
     composer.render(renderer);
-    stats.end()
+    // stats.end()
  
      // Call tick again on the next frame
      window.requestAnimationFrame( animate )
