@@ -124,25 +124,27 @@ for ( let x = 0; x < amount; x ++ ) {
 scene.add( mesh );
 
 //AUDIO
-
-const audioContext = new window.AudioContext();
-const audioElement = document.getElementById("myAudio");
-const source = audioContext.createMediaElementSource(audioElement);
-const analyser = audioContext.createAnalyser();
-source.connect(analyser);
-analyser.connect(audioContext.destination);
-analyser.fftSize = 1024;
-analyser.smoothingTimeConstant = 0.8;
-let dataArray = new Uint8Array(analyser.frequencyBinCount);
+let dataArray;
+var analyser;
 
 document.getElementById("play").onclick = function init(){
-    document.getElementById("play").style.display = "none"; 
+    const audioContext = new window.AudioContext();
+    const audioElement = document.getElementById("myAudio");
+    const source = audioContext.createMediaElementSource(audioElement);
+    analyser = audioContext.createAnalyser();
+    
+    dataArray = new Uint8Array(analyser.frequencyBinCount);
+    
+    source.connect(analyser);
+    analyser.connect(audioContext.destination);
+    analyser.fftSize = 1024;
+    analyser.smoothingTimeConstant = 0.8;
     audioElement.play();
+    
+    document.getElementById("play").style.display = "none";
+    document.getElementById("audioplayer").style.display = "block";
+    animate();
 }
-
-
-
-
 
 let queue = [];
 for (let x = 0; x < amount; x++){
@@ -155,7 +157,7 @@ for (let x = 0; x < amount; x++){
  * Animate
  */
 
-const tick = () =>
+const animate = () =>
  {
     // Update controls
     controls.update() 
@@ -190,10 +192,7 @@ const tick = () =>
     stats.end()
  
      // Call tick again on the next frame
-     window.requestAnimationFrame(tick)
- }
- 
- tick();
-
+     window.requestAnimationFrame( animate )
+}
 
 
