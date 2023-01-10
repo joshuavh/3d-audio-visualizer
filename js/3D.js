@@ -124,6 +124,7 @@ for ( let x = 0; x < amount; x ++ ) {
 scene.add( mesh );
 
 //AUDIO
+
 const audioContext = new window.AudioContext();
 const audioElement = document.getElementById("myAudio");
 const source = audioContext.createMediaElementSource(audioElement);
@@ -133,7 +134,14 @@ analyser.connect(audioContext.destination);
 analyser.fftSize = 1024;
 analyser.smoothingTimeConstant = 0.8;
 let dataArray = new Uint8Array(analyser.frequencyBinCount);
-audioElement.play();
+
+document.getElementById("play").onclick = function init(){
+    document.getElementById("play").style.display = "none"; 
+    audioElement.play();
+}
+
+
+
 
 
 let queue = [];
@@ -142,7 +150,6 @@ for (let x = 0; x < amount; x++){
         queue.push(0);
     }
 }
-console.log(queue.length)
 
 /**
  * Animate
@@ -161,8 +168,7 @@ const tick = () =>
 
     let i = 0;
     let f = 0;
-    let g = 0;
-    let h = 0;
+
 
     for ( let x = 0; x < amount; x ++ ) {
         for ( let y = 0; y < amount; y ++ ) {
@@ -175,13 +181,6 @@ const tick = () =>
 
             f++;
             i++
-
-            // if(i > 0 && i % amount==0){
-            //         i = i + amount*2 + 1;
-            // }
-            //  else {
-            //     i++;
-            //  }
         }
     }
 
